@@ -34,7 +34,7 @@ resource "azurerm_resource_group" "rg" {
 # Datos del Storage Account
 
 resource "azurerm_storage_account" "sacc" {
-    name                     = "azunir-sacc" 
+    name                     = "azunirsacc27062021" 
     resource_group_name      = azurerm_resource_group.rg.name
     location                 = var.location
     account_tier             = "Standard"
