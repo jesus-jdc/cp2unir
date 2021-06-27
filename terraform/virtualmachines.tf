@@ -5,12 +5,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
     resource_group_name = azurerm_resource_group.rg.name
     location            = var.location
     size                = var.vm_size #Definir de forma local según el rol (worker, master...)
-    admin_username      = "admin"
+    admin_username      = "adminUsername"
     network_interface_ids = [azurerm_network_interface.nic.id]
     disable_password_authentication = true
 
     admin_ssh_key {
-        username   = "admin"
+        username   = "adminUsername"
         public_key = file("~/.ssh/id_rsa.pub")
     }
 
