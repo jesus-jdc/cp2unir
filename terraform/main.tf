@@ -1,5 +1,7 @@
 # Fichero de configuración que incluye datos del Provider, Service Principal, Resource Group y Storage Account
 
+# Versión
+
 terraform {
   required_providers {
     azurerm = {
@@ -22,7 +24,7 @@ provider "azurerm" {
 # Datos del Resource Group
 
 resource "azurerm_resource_group" "rg" {
-    name     = "azunir-rg"
+    name     = var.rg_name
     location = var.location
 
     tags = {
@@ -34,8 +36,8 @@ resource "azurerm_resource_group" "rg" {
 # Datos del Storage Account
 
 resource "azurerm_storage_account" "sacc" {
-    name                     = "azunirsacc27062021" 
-    resource_group_name      = azurerm_resource_group.rg.name
+    name                     = var.storage_account 
+    resource_group_name      = var.rg_name
     location                 = var.location
     account_tier             = "Standard"
     account_replication_type = "LRS"
