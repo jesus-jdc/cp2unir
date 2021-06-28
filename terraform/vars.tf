@@ -1,16 +1,19 @@
-# Fichero de variables para ficheros de configuración de Terraform
+# Fichero de variables para ficheros de configuración de Terraform no incluidos en el correction-vars.tf
 
-variable "location" {
+variable "mt_vm_size" {
   type = string
-  description = "Región de Azure de la infraestructura groupId: azunir"
-  default = "West Europe"
+  description = "Clase de máquina virtual para los nodos master"
+  default = "Standard_B2s" # 4 GB RAM, 2 vCPU
 }
 
-# Cambiar la variable vm_size. No interesa que todas las máquinas tengan las mismas características !!!
-# O se incluye en local, o se hace una variable por rol.
-
-variable "vm_size" {
+variable "wk_vm_size" {
   type = string
-  description = "Clase de máquina virtual"
-  default = "Standard_D1_v2" # 3.5 GB, 1 CPU // Cambiar, ya que para k8s con 1 CPU no da.
+  description = "Clase de máquina virtual para los nodos worker"
+  default = "Standard_D1_v2" # 3.5 GB RAM, 1 vCPU
+}
+
+variable "wk_count" {
+  type = number
+  description = "Define el número de nodos worker"
+  default = 2
 }

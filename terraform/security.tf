@@ -23,9 +23,9 @@ resource "azurerm_network_security_group" "sg" {
     }
 }
 
-# Attachment. Ampliar a todas las NIC
+# Attachment. Aplicamos mismo NSG a toda la subnet
 
-resource "azurerm_network_interface_security_group_association" "sg2nic" {
-    network_interface_id      = azurerm_network_interface.nic.id
+resource "azurerm_subnet_network_security_group_association" "nsg2snet" {
+    subnet_id      = azurerm_subnet.snet.id
     network_security_group_id = azurerm_network_security_group.sg.id
 }
