@@ -24,7 +24,7 @@ provider "azurerm" {
 # Datos del Resource Group
 
 resource "azurerm_resource_group" "rg" {
-    name     = var.rg_name
+    name     = "azunir-rg"
     location = var.location
 
     tags = {
@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_storage_account" "sacc" {
     name                     = var.storage_account 
-    resource_group_name      = var.rg_name
+    resource_group_name      = azurerm_resource_group.rg.name
     location                 = var.location
     account_tier             = "Standard"
     account_replication_type = "LRS"

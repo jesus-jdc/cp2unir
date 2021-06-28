@@ -1,11 +1,5 @@
 # Fichero de variables para ficheros de configuración de Terraform no incluidos en el correction-vars.tf
 
-variable "rg_name" {
-  type = string
-  description = "Nombre del Resource Group"
-  default = "azunir-rg"
-}
-
 variable "mt_vm_size" {
   type = string
   description = "Clase de máquina virtual para los nodos master"

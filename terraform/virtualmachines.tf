@@ -9,7 +9,7 @@
 
 resource "azurerm_linux_virtual_machine" "vm_master" {
     name                = "azunir-vm-k8s-master-nfs"
-    resource_group_name = var.rg_name
+    resource_group_name = azurerm_resource_group.rg.name
     location            = var.location
     size                = var.mt_vm_size
     admin_username      = var.ssh_user
@@ -55,7 +55,7 @@ resource "azurerm_linux_virtual_machine" "vm_master" {
 resource "azurerm_linux_virtual_machine" "vm_worker" {
     count = var.wk_count
     name                = "azunir-vm-k8s-wk-${count.index}"
-    resource_group_name = var.rg_name
+    resource_group_name = azurerm_resource_group.rg.name
     location            = var.location
     size                = var.wk_vm_size
     admin_username      = var.ssh_user
