@@ -1,4 +1,4 @@
-# Fichero de credenciales
+# Fichero de credenciales (oculto)
 
 variable "subscription_id" {
   type = string
