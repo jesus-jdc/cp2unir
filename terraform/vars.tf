@@ -1,4 +1,4 @@
-# Fichero de variables para ficheros de configuración de Terraform no incluidos en el correction-vars.tf
+# Fichero de variables para ficheros de configuración de Terraform
 
 variable "mt_vm_size" {
   type = string
