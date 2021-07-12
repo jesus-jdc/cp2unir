@@ -1,0 +1,23 @@
+---
+
+#En este Playbook se desarrolla la configuración de kubectl
+
+- hosts: master
+  become: true
+
+  tasks:
+  
+  - name: Creamos directorio .kube
+    become: yes
+    become_user: rick
+    file:
+      path: /home/rick/.kube
+      state: directory
+      mode: 0755
+
+  - name: Copiar admin.conf al directorio de usuario
+    copy:
+      src: /etc/kubernetes/admin.conf
+      dest: /home/rick/.kube/config
+      remote_src: yes
+      owner: rick

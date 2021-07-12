@@ -2,7 +2,8 @@
 ansible_user=rick
 
 [master]
-azunir-vm-k8s-master-nfs
+azunir-vm-k8s-master-nfs ansible_host=<AZURE_PIP>
 
 [workers]
-azunir-vm-k8s-wk-[0:1]
+azunir-vm-k8s-wk-0 ansible_host=<AZURE_PIP>
+azunir-vm-k8s-wk-1 ansible_host=<AZURE_PIP>

@@ -1,0 +1,14 @@
+---
+
+#En este Playbook se desarrolla la configuración del nodo master
+
+- hosts: master
+  become: true
+
+  tasks:
+
+  - name: Configuramos kubeadm 
+    command: kubeadm init --pod-network-cidr 192.169.0.0/16 >> cluster_info.txt
+    args:
+      chdir: $HOME
+      creates: cluster_info.txt

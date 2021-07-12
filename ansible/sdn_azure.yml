@@ -1,0 +1,26 @@
+---
+
+#En este Playbook se desarrolla la instalación de la SDN en Azure
+
+- hosts: master
+  become: true
+
+  tasks:
+
+  - name: Abrir puertos en FW 8285/udp y 8472/udp
+    firewalld:
+      port: "{{ item }}"
+      permanent: true
+      state: enabled
+    with_items:
+      - 8285/udp
+      - 8472/udp
+  
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+  
+  - name: Aplicar fichero SDN
+    remote_user: rick
+    command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml

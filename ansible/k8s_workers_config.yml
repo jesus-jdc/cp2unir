@@ -1,0 +1,27 @@
+---
+
+#En este Playbook se desarrolla la configuración del nodo master
+
+- hosts: workers
+  become: true
+
+  tasks:
+
+  - name: Abrir puertos en FW 10250/tcp, 30000-32767/tcp
+    firewalld:
+      zone: public
+      port: "{{ item }}"
+      permanent: true
+      state: enabled
+    with_items:
+      - 10250/tcp
+      - 30000-32767/tcp
+  
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+  
+  - name: Agregamos workers al cluster
+    become: yes
+    command: kubeadm join 10.0.1.10:6443 --token b7umv9.q1q2ej5k71yy35c9 --discovery-token-ca-cert-hash sha256:50f99d163d3c9258c0d5f50db4f6f097eb443f9009a2e6775f226676c1bc2d05 

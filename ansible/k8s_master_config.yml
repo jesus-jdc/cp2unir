@@ -1,0 +1,51 @@
+---
+
+#En este Playbook se desarrolla la configuración del nodo master
+
+- hosts: master
+  become: true
+
+  tasks:
+
+  - name: Abrir puertos en FW 6443/tcp, 2379-2380/tcp, 10250/tcp, 10251/tcp, 10252/tcp, 10255/tcp 
+    firewalld:
+      port: "{{ item }}"
+      permanent: true
+      state: enabled
+    with_items:
+      - 6443/tcp
+      - 2379-2380/tcp
+      - 10250/tcp
+      - 10251/tcp
+      - 10252/tcp
+      - 10255/tcp
+  
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+  
+  - name: Configuramos kubeadm
+    command: kubeadm config images pull
+  
+  - name: Agregamos rich rule Workers
+    firewalld:
+      rich_rule: "{{item}}"
+      permanent: true
+      state: enabled
+    with_items:
+      - 'rule family=ipv4 source address=20.73.47.37/32 accept'
+      - 'rule family=ipv4 source address=20.73.184.127/32 accept'
+      - 'rule family=ipv4 source address=10.0.1.11/32 accept'
+      - 'rule family=ipv4 source address=10.0.1.12/32 accept'
+  
+  - name: Agregamos rich rule Docker
+    firewalld:
+      rich_rule: 'rule family=ipv4 source address=172.17.0.0/16 accept'
+      permanent: true
+      state: enabled
+  
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
