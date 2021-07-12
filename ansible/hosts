@@ -1,12 +1,8 @@
 [all:vars]
-ansible_user=<YOUR ANSIBLE USER>
+ansible_user=rick
 
 [master]
-master
+azunir-vm-k8s-master-nfs
 
 [workers]
-worker1
-worker2
-
-[nfs]
-nfs
+azunir-vm-k8s-wk-[0:1]
