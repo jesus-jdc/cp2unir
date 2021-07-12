@@ -1,0 +1,63 @@
+---
+
+# Playbook para la configuración del NFS
+
+- hosts: master
+  become: true
+
+  tasks:
+
+  - name: Crear el directorio nfs
+    file:
+      path: /srv/nfs
+      state: directory
+
+  - name: Instalar paquetes nfs-utils y net-tools
+    dnf:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - nfs-utils
+      - net-tools
+  
+  - name: Iniciar NFS server
+    service:
+      name: nfs-server
+      state: started
+      enabled: yes
+  
+  - name: Agregar lineas a /etc/exports
+    lineinfile:
+      path: /etc/exports
+      line: '{{item}}'
+    with_items:
+      - '/srv/nfs	20.73.185.174(rw,sync)'
+      - '/srv/nfs	20.73.47.37(rw,sync)'
+      - '/srv/nfs	20.73.184.127(rw,sync)'
+  
+  - name: Exportar cambios exportfs -r
+    command: exportfs -r
+  
+  - name: Exportar cambios exportfs -s
+    command: exportfs -s
+
+  - name: Comprobación que el FW está activado o iniciarlo
+    service:
+      name: firewalld
+      state: started
+      enabled: yes
+  
+  - name: Agregamos reglas al FW - nfs, rpc-bind, mountd
+    firewalld:
+      service: "{{ item }}"
+      permanent: true
+      state: enabled
+    with_items:
+      - nfs
+      - rpc-bind
+      - mountd
+  
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded

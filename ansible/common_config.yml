@@ -1,0 +1,56 @@
+---
+
+#En este Playbook se desarrolla la configuración tanto para los nodos worker, como para el master
+
+- hosts: all
+  become: true
+
+  tasks:
+
+  - name: Activar firewall
+    service:
+      name: firewalld
+      state: started
+      enabled: yes
+
+  - name: Activar el "transparent masquerading"
+    modprobe:
+      name: br_netfilter
+      state: present
+
+  - name: Activar masquerade
+    firewalld:
+      masquerade: yes
+      state: enabled
+      permanent: yes
+  
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+
+  - name: Crear el fichero k8s.conf
+    file:
+      path: /etc/sysctl.d/k8s.conf
+      state: touch
+
+  - name: Agregar lineas a k8s.conf
+    lineinfile:
+      path: /etc/sysctl.d/k8s.conf
+      line: '{{item}}'
+    with_items:
+      - 'net.bridge.bridge-nf-call-iptables = 1'
+      - 'net.bridge.bridge-nf-call-ip6tables = 1'
+
+  - name: Eliminar el swapfile /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
+  
+  - name: Deshabilitar el Swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0

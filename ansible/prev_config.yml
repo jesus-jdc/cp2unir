@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+
+  - name: Actualizar paquetes del sistema operativo
+    dnf:
+      name: "*"
+      state: latest
+
+  - name: Instalar paquete nfs-utils, nfs4-acl-tools, wget, net-tools, chrony
+    dnf:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - nfs-utils
+      - nfs4-acl-tools
+      - wget
+      - net-tools
+      - chrony
+
+  - name: Establecer el timezone de Madrid
+    timezone: 
+      name: Europe/Madrid
+
+  - name: Iniciar Chrony
+    service:
+      name: chronyd
+      state: started
+      enabled: yes
+ 
+  - name: Activar NTP
+    command: /usr/bin/timedatectl set-ntp true
+
+  - name: Deshabilitar SELinux
+    selinux:
+      state: disabled
