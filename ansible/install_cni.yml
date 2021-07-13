@@ -8,7 +8,8 @@
   tasks:
 
   - name: Configuramos kubeadm 
-    command: kubeadm init --pod-network-cidr 192.169.0.0/16 >> cluster_info.txt
+    shell: kubeadm init --pod-network-cidr 10.244.0.0/16 >> cluster_info.txt
+    register: kubeadm_init_out
     args:
-      chdir: $HOME
+      chdir: /home/rick
       creates: cluster_info.txt

@@ -7,6 +7,6 @@
 
   tasks:
 
-  - name: Instalamos un Ingress Controller
-    become: yes
+  - name: Instalamos un Ingress Controller #PROBAR
+    become_user: rick
     command: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml

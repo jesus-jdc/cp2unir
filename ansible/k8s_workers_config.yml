@@ -2,8 +2,26 @@
 
 #En este Playbook se desarrolla la configuración del nodo master
 
+- hosts: master
+  become: yes
+  gather_facts: false
+
+  tasks:
+
+  - name: Creamos un nuevo token para el Cluster-Join
+    command: kubeadm token create --print-join-command
+    register: join_command
+  
+  - debug:
+      var: join_command
+  
+  - name: set join command
+    set_fact:
+      join_command: "{{ join_command.stdout_lines[0] }}"
+
+
 - hosts: workers
-  become: true
+  become: yes
 
   tasks:
 
@@ -21,7 +39,10 @@
     systemd:
       name: firewalld
       state: reloaded
-  
+    
   - name: Agregamos workers al cluster
     become: yes
-    command: kubeadm join 10.0.1.10:6443 --token b7umv9.q1q2ej5k71yy35c9 --discovery-token-ca-cert-hash sha256:50f99d163d3c9258c0d5f50db4f6f097eb443f9009a2e6775f226676c1bc2d05 
+    shell: "{{ hostvars['azunir-vm-k8s-master-nfs'].join_command }} >> node_joined.txt"
+    args:
+      chdir: /home/rick
+      creates: node_joined.txt

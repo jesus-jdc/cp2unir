@@ -31,9 +31,9 @@
       path: /etc/exports
       line: '{{item}}'
     with_items:
-      - '/srv/nfs	20.73.185.174(rw,sync)'
-      - '/srv/nfs	20.73.47.37(rw,sync)'
-      - '/srv/nfs	20.73.184.127(rw,sync)'
+      - '/srv/nfs	10.0.1.10(rw,sync)'
+      - '/srv/nfs	10.0.1.11(rw,sync)'
+      - '/srv/nfs	10.0.1.12(rw,sync)'
   
   - name: Exportar cambios exportfs -r
     command: exportfs -r
