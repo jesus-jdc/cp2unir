@@ -34,8 +34,6 @@
       permanent: true
       state: enabled
     with_items:
-      - 'rule family=ipv4 source address=20.73.47.37/32 accept'
-      - 'rule family=ipv4 source address=20.73.184.127/32 accept'
       - 'rule family=ipv4 source address=10.0.1.11/32 accept'
       - 'rule family=ipv4 source address=10.0.1.12/32 accept'
   

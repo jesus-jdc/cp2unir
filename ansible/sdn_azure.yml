@@ -2,7 +2,7 @@
 
 #En este Playbook se desarrolla la instalación de la SDN en Azure
 
-- hosts: master
+- hosts: all
   become: true
 
   tasks:
@@ -21,6 +21,6 @@
       name: firewalld
       state: reloaded
   
-  - name: Aplicar fichero SDN
-    remote_user: rick
+  - name: Aplicar fichero SDN #PROBAR
+    become_user: rick
     command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
