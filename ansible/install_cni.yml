@@ -1,6 +1,6 @@
 ---
 
-#En este Playbook se desarrolla la configuración del nodo master
+#En este Playbook se desarrolla la instalación del CNI en el nodo master y se define CIDR del cluster
 
 - hosts: master
   become: true

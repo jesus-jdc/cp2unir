@@ -19,7 +19,7 @@
       state: reloaded
 
   - name: Creamos el deployment
-    become: yes
+    become_user: rick
     command: kubectl create deployment nginx --image=nginx
   
   - name: Exponemos app por el puerto 80
