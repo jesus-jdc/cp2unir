@@ -1,6 +1,6 @@
 ---
 
-#En este Playbook se desarrolla la configuración del nodo master
+#En este Playbook se desarrolla la configuración de los nodos workers
 
 - hosts: master
   become: yes

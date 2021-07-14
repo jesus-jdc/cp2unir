@@ -20,7 +20,13 @@
     systemd:
       name: firewalld
       state: reloaded
-  
-  - name: Aplicar fichero SDN #PROBAR
+
+- hosts: master
+  become: true
+
+  tasks:
+
+  - name: Aplicar fichero SDN
+    become: yes
     become_user: rick
     command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
