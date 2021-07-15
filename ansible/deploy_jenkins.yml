@@ -1,0 +1,48 @@
+---
+
+#En este Playbook se desarrolla el despliegue en Kubernetes de un Jenkins
+
+- hosts: master
+  become: true
+
+  tasks:
+
+  - name: Abrir puerto https
+    firewalld:
+      service: https
+      permanent: true
+      state: enabled
+
+  - name: Abrir puerto 30000
+    firewalld:
+      port: 30000/tcp
+      permanent: true
+      state: enabled
+
+  - name: Hacer un reload de firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+
+  - name: Instalar git
+    dnf:
+      name: git
+      state: latest
+
+  - name: Hacer git clone a repositorio remoto
+    git:
+      repo: https://github.com/jesus-jdc/cp2unir-jenkins
+      version: master
+      dest: /home/rick/cp2unir-jenkins
+
+  - name: Creamos un namespace para Jenkins
+    become_user: rick
+    command: kubectl create namespace jenkinscp2
+
+  - name: Creamos el deployment de Jenkins
+    become_user: rick
+    command: kubectl create -f /home/rick/cp2unir-jenkins/jenkins.yml --namespace jenkinscp2
+  
+  - name: Creamos un servicio para exponer la app
+    become_user: rick
+    command: kubectl create -f /home/rick/cp2unir-jenkins/jenkins-service.yml --namespace jenkinscp2
