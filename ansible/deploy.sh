@@ -16,6 +16,6 @@ ansible-playbook -i hosts sdn_azure.yml
 ansible-playbook -i hosts k8s_workers_config.yml
 ansible-playbook -i hosts ingress_controller.yml
 
-# Despliegue de la aplicación: Nginx
+# Despliegue de la aplicación: Jenkins
 
-ansible-playbook -i hosts deploy_nginx.yml
+ansible-playbook -i hosts deploy_jenkins.yml
