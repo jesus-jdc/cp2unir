@@ -13,7 +13,7 @@
     dnf:
       name: "{{ item }}"
       state: latest
-    with_items:
+    loop:
       - nfs-utils
       - nfs4-acl-tools
       - wget

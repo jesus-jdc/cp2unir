@@ -16,7 +16,7 @@
     lineinfile:
       path: /etc/yum.repos.d/kubernetes.repo
       line: "{{item}}"
-    with_items:
+    loop:
       - '[kubernetes]'
       - 'name=Kubernetes'
       - 'baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64'
@@ -29,7 +29,7 @@
     dnf:
       name: "{{item}}"
       state: present
-    with_items:
+    loop:
       - kubelet
       - kubeadm
       - kubectl

@@ -31,7 +31,7 @@
       port: "{{ item }}"
       permanent: true
       state: enabled
-    with_items:
+    loop:
       - 10250/tcp
       - 30000-32767/tcp
   
