@@ -16,7 +16,7 @@
     dnf:
       name: "{{ item }}"
       state: latest
-    with_items:
+    loop:
       - nfs-utils
       - net-tools
   
@@ -30,7 +30,7 @@
     lineinfile:
       path: /etc/exports
       line: '{{item}}'
-    with_items:
+    loop:
       - '/srv/nfs	10.0.1.10(rw,sync)'
       - '/srv/nfs	10.0.1.11(rw,sync)'
       - '/srv/nfs	10.0.1.12(rw,sync)'
@@ -52,7 +52,7 @@
       service: "{{ item }}"
       permanent: true
       state: enabled
-    with_items:
+    loop:
       - nfs
       - rpc-bind
       - mountd

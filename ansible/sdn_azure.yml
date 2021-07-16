@@ -12,7 +12,7 @@
       port: "{{ item }}"
       permanent: true
       state: enabled
-    with_items:
+    loop:
       - 8285/udp
       - 8472/udp
   

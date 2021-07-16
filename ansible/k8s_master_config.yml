@@ -12,7 +12,7 @@
       port: "{{ item }}"
       permanent: true
       state: enabled
-    with_items:
+    loop:
       - 6443/tcp
       - 2379-2380/tcp
       - 10250/tcp
@@ -33,7 +33,7 @@
       rich_rule: "{{item}}"
       permanent: true
       state: enabled
-    with_items:
+    loop:
       - 'rule family=ipv4 source address=10.0.1.11/32 accept'
       - 'rule family=ipv4 source address=10.0.1.12/32 accept'
   
