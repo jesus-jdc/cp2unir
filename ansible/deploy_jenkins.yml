@@ -41,7 +41,7 @@
 
   - name: Creamos el deployment de Jenkins
     become_user: rick
-    command: kubectl create -f /home/rick/cp2unir-jenkins/jenkins.yml --namespace jenkinscp2
+    command: kubectl create -f /home/rick/cp2unir-jenkins/jenkins-deployment.yml --namespace jenkinscp2
   
   - name: Creamos un servicio para exponer la app
     become_user: rick
